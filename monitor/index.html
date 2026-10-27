@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="id"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex"><title>Monitoring Developer</title>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../monitor/monitor.css"></head>
+<body><main>
+<section id="login"><h1>Monitoring</h1>
+<div class="card"><input id="e" type="email" placeholder="Email developer" autocomplete="username"><input id="p" type="password" placeholder="Password" autocomplete="current-password"><button id="go" class="btn">Masuk</button></div></section>
+<section id="app" hidden>
+<div class="top"><h1>Monitoring</h1><button id="out" class="btn alt">Keluar</button></div>
+<nav class="tabs"><button data-t="info">Info server</button><button data-t="users">Siswa</button><button data-t="code">Codingan</button><button data-t="news">Pengumuman</button></nav>
+<div id="main"></div></section>
+</main>
+<dialog id="vw"><h3 id="vt"></h3><b>HTML</b><pre id="vh"></pre><b>CSS</b><pre id="vc"></pre><b>JS</b><pre id="vj"></pre><form method="dialog"><button class="btn">Tutup</button></form></dialog>
+<div id="toast"></div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<script src="../js/config.js"></script>
+<script src="../monitor/monitor.js"></script>
+</body></html>
