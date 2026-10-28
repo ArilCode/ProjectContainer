@@ -1,4 +1,5 @@
 {"rewrites":[
-{"source":"/:user/:slug/:path*","destination":"/api/serve?user=:user&slug=:slug&path=:path*"},
-{"source":"/:user/:slug","destination":"/api/serve?user=:user&slug=:slug"}
+{"source":"/:user/:slug","destination":"/api/serve?user=:user&slug=:slug"},
+{"source":"/:user/:slug/","destination":"/api/serve?user=:user&slug=:slug"},
+{"source":"/:user/:slug/(.+)","destination":"/api/serve?user=:user&slug=:slug&path=$1"}
 ]}
