@@ -1,4 +1,6 @@
 const enc = encodeURIComponent;
+// localStorage/sessionStorage diblokir di sandbox; ganti dengan penyimpanan sementara agar kode siswa tidak error
+const SHIM = '<script>try{localStorage.length}catch(e){["localStorage","sessionStorage"].forEach(function(n){var d={};try{Object.defineProperty(window,n,{configurable:true,value:{getItem:function(k){return k in d?d[k]:null},setItem:function(k,v){d[k]=String(v)},removeItem:function(k){delete d[k]},clear:function(){d={}},key:function(i){return Object.keys(d)[i]||null},get length(){return Object.keys(d).length}}})}catch(x){}})}</script>';
 module.exports = async (req, res) => {
   const { user, slug } = req.query;
   let path = Array.isArray(req.query.path) ? req.query.path.join('/') : String(req.query.path || '');
@@ -30,7 +32,8 @@ module.exports = async (req, res) => {
   if (isHtml) {
     if (path === 'index.html') await fetch(`${base}/rest/v1/rpc/increment_views`, { method: 'POST', headers: { ...h, 'Content-Type': 'application/json' }, body: JSON.stringify({ u: user, s: slug }) }).catch(() => {});
     const dir = path.includes('/') ? path.slice(0, path.lastIndexOf('/') + 1).split('/').map(enc).join('/') : '';
-    if (!/<base[\s>]/i.test(body)) { const t = `<base href="/${user}/${slug}/${dir}">`; body = /<head(\s[^>]*)?>/i.test(body) ? body.replace(/<head(\s[^>]*)?>/i, m => m + t) : t + body; }
+    const t = (/<base[\s>]/i.test(body) ? '' : `<base href="/${user}/${slug}/${dir}">`) + SHIM;
+    body = /<head(\s[^>]*)?>/i.test(body) ? body.replace(/<head(\s[^>]*)?>/i, m => m + t) : t + body;
     res.setHeader('Content-Security-Policy', 'sandbox allow-scripts allow-forms allow-modals allow-popups');
   }
   const text = !f.is_b64;
