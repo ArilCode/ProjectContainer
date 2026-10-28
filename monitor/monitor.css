@@ -1,2 +1,5 @@
 @import url(../css/style.css);
-main{max-width:980px}
+
+main {
+  max-width: 980px;
+}
