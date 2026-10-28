@@ -37,7 +37,7 @@ document.querySelector('.tabs').onclick=e=>{const b=e.target.closest('button');i
 $('#main').oninput=e=>{if(e.target.id!=='q')return;const v=e.target.value.toLowerCase();document.querySelectorAll('tr[data-s]').forEach(r=>r.hidden=!r.dataset.s.includes(v))};
 $('#main').onclick=async e=>{
   const b=e.target.closest('button');if(!b)return;const a=b.dataset.a,id=b.dataset.id,p=P.find(x=>x.id===id);let r;
-  if(a==='view'){$('#vt').textContent=p.username+'/'+(p.slug||'-');$('#vh').textContent=p.html;$('#vc').textContent=p.css;$('#vj').textContent=p.js;$('#vw').showModal();return}
+  if(a==='view'){const {data:fl}=await sb.from('files').select('path,size').eq('project_id',id).order('path');$('#vt').textContent=p.username+'/'+(p.slug||'-');$('#vh').textContent=(fl&&fl.length?fl.map(x=>x.path+'  ('+(x.size/1024).toFixed(1)+' KB)').join('\n'):'(tidak ada file)')+(p.html?'\n\n'+p.html:'');$('#vc').textContent=p.css;$('#vj').textContent=p.js;$('#vw').showModal();return}
   if(a==='ren'){const title=prompt('Judul baru:',p.title);if(!title)return;const s=(prompt('Nama link (kosongkan jika tidak diubah):',p.slug||'')||'').trim().toLowerCase();
     if(s&&!/^[a-z0-9-]{1,40}$/.test(s))return toast('Nama link tidak valid');r=await sb.from('projects').update(s?{title,slug:s}:{title}).eq('id',id)}
   if(a==='pub'){let patch={is_public:false};if(!p.is_public){const s=(prompt('Nama link:',p.slug||'')||'').trim().toLowerCase();if(!/^[a-z0-9-]{1,40}$/.test(s))return toast('Nama link tidak valid');patch={is_public:true,slug:s}}
